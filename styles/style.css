@@ -65,16 +65,16 @@ button:focus {
     font-size: 14px;
     height: 50px;
     padding: 0px;
-    background-color: #4B6C4D;
+    background-color: #AD8330;
     color: white;
 }
 
 .top_button:hover, .top_button:focus {
-    background-color: #47764B;
+    background-color: #AD8330;
 }
 
 .top_button.active {
-    background-color: #47764B;
+    background-color: #AD8330;
 }
 
 /* Grid */
