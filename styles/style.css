@@ -70,7 +70,7 @@ button:focus {
 }
 
 .top_button:hover, .top_button:focus {
-    background-color: #AD8330;
+    background-color: #AD9330;
 }
 
 .top_button.active {
