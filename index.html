@@ -25,8 +25,7 @@
       /* Set Reading Plan from local JSON file and current Date */
       /* JSON: "date": "2020-12-1T09:00:00.000Z" */
       var today = new Date();
-      $.getJSON('reading_plan/reading_plan_ne.json', function(data) {
-          console.log(data);
+      $.getJSON('reading_plan/reading_plan_brisbane_yp.json', function(data) {
           for (var i = 0; i < data.length; i++) {
               /* Match Today's Date */
               var readingPlanDateSplit = (data[i].date).split("-");
@@ -42,9 +41,7 @@
               if (day < 10) {
                   day = "0" + day;
               }
-              
-              console.log(year, month, day);
-              console.log(readingPlanDateSplit);
+
               if (readingPlanDateSplit[0] === year.toString() &&
                   readingPlanDateSplit[1] === month.toString() &&
                   readingPlanDateSplit[2] === day.toString()) {
@@ -53,27 +50,27 @@
                       var reading_split = data[i - j]["reading"].split(";");
 
                       /* NT Title */
-                      var nt_split = reading_split[0].split(" ");
-                      if (nt_split[0] === "1" || nt_split[0] === "2" || nt_split[0] === "2") {
-                          nt_split[0] += " " + nt_split[1];
-                          nt_split[1] = nt_split[2];
-                          nt_split.splice(-1, 1)
-                      }
-                      console.log(nt_split);
+                      // var nt_split = reading_split[0].split(" ");
+                      // if (nt_split[0] === "1" || nt_split[0] === "2" || nt_split[0] === "2") {
+                      //     nt_split[0] += " " + nt_split[1];
+                      //     nt_split[1] = nt_split[2];
+                      //     nt_split.splice(-1, 1)
+                      // }
 
                       /* OT Title */
-                      /*var ot_split = reading_split[1].split(" ");
-                      ot_split.shift();
+                      var ot_split = reading_split[0].split(" ");
+                      // ot_split.shift();
                       if (ot_split[0] === "1" || ot_split[0] === "2") {
                           ot_split[0] += " " + ot_split[1];
                           ot_split[1] = ot_split[2];
                           ot_split.splice(-1, 1)
                       }
-                      var ot_book_title = get_full_book_name(ot_split[0]);
-                      ot_split[0] = ot_book_title;
+                      // var ot_book_title = get_full_book_name(ot_split[0]);
+                      // ot_split[0] = ot_book_title;
 
                       /* Add to Screen and sessionStorage */
-                      var full_title = nt_split.join(" ");// + "; " + ot_split.join(" ");
+                      // var full_title = nt_split.join(" ");// + "; " + ot_split.join(" ");
+                      var full_title = ot_split.join(" ");
                       document.getElementById(reading_id).getElementsByTagName('p')[0].innerHTML = full_title;
                   }
               }
