@@ -40,144 +40,101 @@
 
 
 		<!-- Text -->
-		<div class="bible-text">
-			<h4 id="nt-title"></h4>
-			<p id="nt-text"></p>
+		<div class="bible-text" id="todays-reading">
 		</div>
-
-		<div class="bible-text">
-			<h4 id="ot-title"></h4>
-			<p id="ot-text"></p>
-		</div>
-
 
     <!-- Get Today's Reading -->
     <script>
-		var reading = sessionStorage.getItem('reading')
-      	var reading_split = reading.split(";");
-		var ot_flag = reading_split.length > 1 ? true : false
+        // four scenarios: "Genesis 1; 1 Kings 1-4; Matthew 1:1-14; John 2:2-3:3"
+        // currently only supports first three
+        // output should look like: ["Genesis 1", "1_Kings 1", "1_Kings 2", "1_Kings 3", "1_Kings 4", "Matthew 1:1-14"]
+        function extractReadings(reading_string) {
+            var sections = reading_string.split("; ");
+            readings = [];
+            for (let section of sections) {
+                // catch second scenario
+                var split = section.split(" ")
+                var i = split.length > 2 ? 2 : 1;
+                var book = split.length > 2 ? split[0] + "_" + split[1] : split[0]
+                if (section.includes("-") && !section.includes(":")) {
+                    var chapters = rangeToArray(split[i]);
+                    for (let chapter of chapters) {
+                        readings.push(book + " " + chapter);
+                    }
+                } 
+                // can add support for last scenario here
+                else {
+                    readings.push(book + " " + split[i]);
+                }
+            }
+            return readings;
+        }
+
+        // takes in something like "1-4", outputs ["1", "2", "3", "4"]
+        function rangeToArray(range_string) {
+            var [begin, end] = range_string.split("-").map(x => parseInt(x));
+            var output = [];
+            while (begin != end + 1) {
+                output.push((begin).toString());
+                begin += 1;
+            }
+            return output;
+        }
+
+        // Get Today's Reading
+        var todays_reading = sessionStorage.getItem('reading');
 
 		/* Get NT and OT text from RcV.json locally */
-    	$.getJSON('../bible/RcV.json', function(data) {
-        	for (var i = 0; i < data.length; i++) {
-				/* NT Title */
-				var nt_split = reading_split[0].split(" ");
-				if (nt_split[0] === "1" || nt_split[0] === "2" || nt_split[0] === "2") {
-					nt_split[0]+= " " + nt_split[1];
-					nt_split[1] = nt_split[2];
-					nt_split.splice(-1, 1)
-				}
-				var nt_book_title = nt_split[0];
-				/* Add NT Titles */
-				document.getElementById("nt-title").innerHTML = nt_split.join(" ");
+    	$.getJSON('../bible/RcV.json', function(rcv_json) {
+            var readings = extractReadings(todays_reading);
+            console.log(readings);
+            for (let reading of readings) {
+                document.getElementById("todays-reading").innerHTML += "<h4>" + reading.replace("_", " ") + "</h4>";
+                for (let book of rcv_json) {
+                    var split = reading.split(" ");
+                    if (book.title == split[0]) {
+                        var chapter = 0;
+                        var start_verse = 0;
+                        var end_verse = 0;
 
-				/* OT Title */
-				if (ot_flag) {
-					var ot_split = reading_split[1].split(" ");
-					ot_split.shift();
-					if (ot_split[0] === "1" || ot_split[0] === "2") {
-						ot_split[0]+= " " + ot_split[1];
-						ot_split[1] = ot_split[2];
-						ot_split.splice(-1, 1)
-					}
-					var ot_book_title = ot_split[0];
-					/* Add OT Title */
-					document.getElementById("ot-title").innerHTML = ot_split.join(" ");
-				}
+                        if (split[1].includes(":")) {
+                            /* Get Chapter */
+                            var chapter_split = split[1].split(":");
+                            chapter = chapter_split[0] - 1;
 
-				// console.log(nt_split);
-				// console.log(nt_book_title);
-				// console.log(ot_split);
-				// console.log(ot_book_title);
+                            /* Get Verse Start & End */
+                            var verse_split = chapter_split[1].split("-");
+                            start_verse = verse_split[0] - 1;
+                            end_verse = verse_split[1] - 1;
+                        } else {
+                            chapter = split[1] - 1;
+                            end_verse = book.pages[chapter].text.length-1;
+                        }
 
-				/* NT Text */
-				if (data[i].title === nt_book_title) {
-					var nt_chapter = 0;
-					var nt_start_verse = 0;
-					var nt_end_verse = 0;
+                        console.log(split[0]);
+                        console.log("Chapter: " + chapter);
+                        console.log("start: " + start_verse);
+                        console.log("end: " + end_verse);
 
+                        // document.getElementById("todays-reading").innerHTML = ""
+                        for (var j = start_verse; j <= end_verse; j++) {
+                            /* Bold & SuperScript Verse Number */
+                            var bold_sup_elem = document.createElement("B");
+                            bold_sup_elem.innerHTML = "<sup>" + (j+1) + "</sup>" + " ";
+                            document.getElementById("todays-reading").appendChild(bold_sup_elem);
 
-					if (nt_split[1].includes(":")) {
-						/* Get Chapter */
-						var nt_chapter_split = nt_split[1].split(":");
-						nt_chapter = nt_chapter_split[0] - 1;
+                            /* Actual Verse */
+                            document.getElementById("todays-reading").innerHTML += book.pages[chapter].text[j];
 
-						/* Get Verse Start & End */
-						var nt_verse_split = nt_chapter_split[1].split("-");
-						nt_start_verse = nt_verse_split[0] - 1;
-						nt_end_verse = nt_verse_split[1] - 1;
-					} else {
-						nt_chapter = nt_split[1] - 1;
-						nt_end_verse = data[i].pages[nt_chapter].text.length-1;
-					}
-
-
-
-					// console.log(nt_book_title);
-					// console.log("Chapter: " + nt_chapter);
-					// console.log("start: " + nt_start_verse);
-					// console.log("end: " + nt_end_verse);
-
-					document.getElementById("nt-text").innerHTML = ""
-					for (var j = nt_start_verse; j <= nt_end_verse; j++) {
-						/* Bold & SuperScript Verse Number */
-						var bold_sup_elem = document.createElement("B");
-						bold_sup_elem.innerHTML = "<sup>" + (j+1) + "</sup>" + " ";
-						document.getElementById("nt-text").appendChild(bold_sup_elem);
-
-						/* Actual Verse */
-						document.getElementById("nt-text").innerHTML+= data[i].pages[nt_chapter].text[j];
-
-						/* New Line Every Verse */
-						var break_elem = document.createElement("BR");
-						document.getElementById("nt-text").appendChild(break_elem);
-						var break_elem_two = document.createElement("BR");
-						document.getElementById("nt-text").appendChild(break_elem_two);
-					}
-				}
-				/* OT Text: ["", "Neh", "12:27-47"] */
-				else if (data[i].title === ot_book_title) {
-					var ot_chapter = 0;
-					var ot_start_verse = 0;
-					var ot_end_verse = 0;
-
-					if (ot_split[1].includes(":")) {
-							/* Get Chapter */
-							var ot_chapter_split = ot_split[1].split(":");
-							ot_chapter = ot_chapter_split[0] - 1;
-
-							/* Get Verse Start & End */
-							var ot_verse_split = ot_chapter_split[1].split("-");
-							ot_start_verse = ot_verse_split[0] - 1;
-							ot_end_verse = ot_verse_split[1] - 1;
-					} else {
-							ot_chapter = ot_split[1] - 1;
-							ot_end_verse = data[i].pages[ot_chapter].text.length-1;
-					}
-
-					// console.log(ot_book_title);
-					// console.log("Chapter: " + ot_chapter);
-					// console.log("start: " + ot_start_verse);
-					// console.log("end: " + ot_end_verse);
-
-					document.getElementById("ot-text").innerHTML = ""
-					for (var j = ot_start_verse; j <= ot_end_verse; j++) {
-						/* Bold & SuperScript Verse Number */
-						var bold_sup_elem = document.createElement("B");
-						bold_sup_elem.innerHTML = "<sup>" + (j+1) + "</sup>" + " ";
-						document.getElementById("ot-text").appendChild(bold_sup_elem);
-
-						/* Actual Verse */
-						document.getElementById("ot-text").innerHTML+= data[i].pages[ot_chapter].text[j];
-
-						/* New Line Every Verse */
-						var break_elem = document.createElement("BR");
-						document.getElementById("ot-text").appendChild(break_elem);
-						var break_elem_two = document.createElement("BR");
-						document.getElementById("ot-text").appendChild(break_elem_two);
-					}
-            	}
-        	}
+                            /* New Line Every Verse */
+                            var break_elem = document.createElement("BR");
+                            document.getElementById("todays-reading").appendChild(break_elem);
+                            var break_elem_two = document.createElement("BR");
+                            document.getElementById("todays-reading").appendChild(break_elem_two);
+                        }
+                    }
+                }
+            }
     	});
     </script>
 		<div id="copyright">

@@ -127,6 +127,7 @@ button:focus {
 
 .bible-text>h4 {
     font-weight: bold;
+    margin-block-start: 0;
 }
 
 /* Date Card */
