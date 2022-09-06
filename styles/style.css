@@ -77,6 +77,12 @@ button:focus {
     background-color: #2B4035;
 }
 
+.top_button.middle {
+    border: 1px solid white;
+    border-bottom: none;
+    border-top: none;
+}
+
 /* Grid */
 .collapsible {
     margin-top: 10px;
