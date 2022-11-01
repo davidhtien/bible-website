@@ -83,6 +83,24 @@ button:focus {
     border-top: none;
 }
 
+.log-reading {
+    width: 170px;
+    height: 100%;
+    background: #577057;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+    /* font-weight: bold; */
+    line-height: 25px;
+}
+
+.log-reading:hover {
+    color: white;
+    background: #809e80;
+}
+
 /* Grid */
 .collapsible {
     margin-top: 10px;
@@ -125,6 +143,10 @@ button:focus {
 /* Text Layout */
 .bible-text {
     margin: 20px;
+}
+
+#todays-reading.bible-text {
+    margin: 20px 20px 0px 20px;
 }
 
 .bible-text>p {
