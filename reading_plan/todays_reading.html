@@ -44,13 +44,20 @@
 		</div>
 
         <div class="uk-text-center" style="margin-bottom:30px">
-            <a id="log-reading-link" href="http://www.biblechallenges.com/member/challenges/10k-challenge#readings" target="_blank">
-                <button class="log-reading">Log today's reading</button>
-            </a>
+            <button onclick="openLogReading();" class="log-reading">Log today's reading</button>
         </div>
 
     <!-- Get Today's Reading -->
     <script>
+        function openLogReading() {
+            var start = 1733853;
+            var todaysReading = $("#chapter").text();
+            var book = todaysReading.split(" ")[0];
+            var chapter = todaysReading.split(" ")[1];
+            var scrollPoint = book == "Luke" ? "reading_" + (start + parseInt(chapter) - 2).toString() : "reading_" + (start + chapter + 23).toString();
+            window.open('http://www.biblechallenges.com/member/challenges/10k-challenge#' + scrollPoint, '_system');
+        }
+
         // four scenarios: "Genesis 1; 1 Kings 1-4; Matthew 1:1-14; John 2:2-3:3"
         // currently only supports first three
         // output should look like: ["Genesis 1", "1_Kings 1", "1_Kings 2", "1_Kings 3", "1_Kings 4", "Matthew 1:1-14"]
@@ -95,7 +102,7 @@
             var readings = extractReadings(todays_reading);
             console.log(readings);
             for (let reading of readings) {
-                document.getElementById("todays-reading").innerHTML += "<h4>" + reading.replace("_", " ") + "</h4>";
+                document.getElementById("todays-reading").innerHTML += '<h4 id="chapter">' + reading.replace("_", " ") + "</h4>";
                 for (let book of rcv_json) {
                     var split = reading.split(" ");
                     if (book.title == split[0]) {
