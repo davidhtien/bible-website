@@ -43,9 +43,9 @@
 		<div class="bible-text" id="todays-reading">
 		</div>
 
-        <div class="uk-text-center" style="margin-bottom:30px">
+        <!-- <div class="uk-text-center" style="margin-bottom:30px">
             <button onclick="openLogReading();" class="log-reading">Log today's reading</button>
-        </div>
+        </div> -->
 
     <!-- Get Today's Reading -->
     <script>
@@ -55,7 +55,7 @@
             var book = todaysReading.split(" ")[0];
             var chapter = todaysReading.split(" ")[1];
             var scrollPoint = book == "Luke" ? "reading_" + (start + parseInt(chapter) - 2).toString() : "reading_" + (start + chapter + 23).toString();
-            window.open('http://www.biblechallenges.com/member/challenges/10k-challenge#' + scrollPoint, '_system');
+            window.open('http://www.biblechallenges.com/member/challenges/10k-challenge#readings', "_self");
         }
 
         // four scenarios: "Genesis 1; 1 Kings 1-4; Matthew 1:1-14; John 2:2-3:3"
