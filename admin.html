@@ -42,6 +42,9 @@
                 chapters = data[i]["chapters"];
                 for (var j = 1; j <= chapters; j++) {
                     var reading = book + " " + j.toString();
+                    var plan = {"reading": reading, "date": startDate.toISOString()};
+                    readingPlan.push(plan)
+                    startDate.setDate(startDate.getDate() + 1);
                     //var brother = brothers[b % brothers.length];
                     //b += 1;
                     //var submissionDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() - 7));
@@ -50,9 +53,6 @@
                     //uploadDate = (uploadDate.getMonth() + 1) + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear();
                     //var publishDate = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' + startDate.getFullYear();
                 }
-                    var plan = {"reading": reading, "date": startDate.toISOString()};
-                    readingPlan.push(plan)
-                    startDate.setDate(startDate.getDate() + 1);
             }
             console.log(JSON.stringify(readingPlan, null, 2));
         });
