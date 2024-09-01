@@ -28,7 +28,8 @@
 
     Pace:
     <script>
-        var startDate = new Date(2021, 7, 30, 5, 0, 0);
+        //new Date(year, monthIndex, day, hours, minutes, seconds)
+        var startDate = new Date(2024, 8, 2, 5, 0, 0);
         var readingPlan = [];
         var book;
         var chapters;
@@ -40,27 +41,18 @@
                 book = data[i]["name"];
                 chapters = data[i]["chapters"];
                 for (var j = 1; j <= chapters; j++) {
-                    if (startDate.getDay() == 0) {
-                        j = j - 1
-                        var reading = "Catch up or rest";
-                        //var brother = "---";
-                        //var submissionDate = "---";
-                        //var uploadDate = "---";
-                        //var publishDate = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' + startDate.getFullYear();
-                    } else {
-                        var reading = book + " " + j.toString();
-                        //var brother = brothers[b % brothers.length];
-                        //b += 1;
-                        //var submissionDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() - 7));
-                        //submissionDate = (submissionDate.getMonth() + 1) + '/' + submissionDate.getDate() + '/' + submissionDate.getFullYear();
-                        //var uploadDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() - 3));
-                        //uploadDate = (uploadDate.getMonth() + 1) + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear();
-                        //var publishDate = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' + startDate.getFullYear();
-                    }
+                    var reading = book + " " + j.toString();
+                    //var brother = brothers[b % brothers.length];
+                    //b += 1;
+                    //var submissionDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() - 7));
+                    //submissionDate = (submissionDate.getMonth() + 1) + '/' + submissionDate.getDate() + '/' + submissionDate.getFullYear();
+                    //var uploadDate = new Date(new Date(startDate).setDate(new Date(startDate).getDate() - 3));
+                    //uploadDate = (uploadDate.getMonth() + 1) + '/' + uploadDate.getDate() + '/' + uploadDate.getFullYear();
+                    //var publishDate = (startDate.getMonth() + 1) + '/' + startDate.getDate() + '/' + startDate.getFullYear();
+                }
                     var plan = {"reading": reading, "date": startDate.toISOString()};
                     readingPlan.push(plan)
                     startDate.setDate(startDate.getDate() + 1);
-                }
             }
             console.log(JSON.stringify(readingPlan, null, 2));
         });
