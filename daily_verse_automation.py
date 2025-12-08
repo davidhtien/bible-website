@@ -29,8 +29,8 @@ ONLY TESTED ON 13" MACBOOK AIR (3024 x 1964)
 book_abbr_dict = {"Matthew" : "Matt", "Mark" : "Mark", "Luke" : "Luke", "John" : "John", "Acts" : "Acts", "Romans" : "Rom", "1 Corinthians" : "1 Cor", "2 Corinthians" : "2 Cor", "Galatians" : "Gal", "Ephesians" : "Eph", "Philippians" : "Phi", "Colossians" : "Col", "1 Thessalonians" : "1 Thes", "2 Thessalonians" : "2 Thes", "1 Timothy" : "1 Tim", "2 Timothy" : "2 Tim", "Titus" : "Titus", "Philemon" : "Phil", "Hebrews" : "Heb", "James" : "James", "1 Peter" : "1 Pet", "2 Peter" : "2 Pet", "1 John" : "1 John", "2 John" : "2 John", "3 John" : "3 John", "Jude" : "Jude", "Revelation" : "Rev"}
 book_length_dict = {"Matthew" : 28, "Mark" : 16, "Luke" : 24, "John" : 21, "Acts" : 28, "Romans" : 16, "1 Corinthians" : 16, "2 Corinthians" : 13, "Galatians" : 6, "Ephesians" : 6, "Philippians" : 4, "Colossians" : 4, "1 Thessalonians" : 5, "2 Thessalonians" : 3, "1 Timothy" : 6, "2 Timothy" : 4, "Titus" : 3, "Philemon" : 1, "Hebrews" : 13, "James" : 5, "1 Peter" : 5, "2 Peter" : 3, "1 John" : 5, "2 John" : 1, "3 John" : 1, "Jude" : 1, "Revelation" : 22}
 
-starting_book = 'Revelation'             # change as necessary, should be the nonabbreviated version, reference book_abbr_dict above
-starting_chapter = 19
+starting_book = '2 Corinthians'             # change as necessary, should be the nonabbreviated version, reference book_abbr_dict above
+starting_chapter = 2
 
 
 '''
